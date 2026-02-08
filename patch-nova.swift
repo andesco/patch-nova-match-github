@@ -21,7 +21,7 @@ let alertCode = """
         blockquotes.forEach(p => {
           const text = p.innerHTML;
           console.log('[Nova Extensions] Checking text:', text.substring(0, 50));
-          const match = text.match(/^\\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\\]\\s*/i);
+          const match = text.match(/^\\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\\](\\s*<br|\\s*\\n|\\s*$)/i);
           console.log('[Nova Extensions] Match result:', match);
           if (match) {
             console.log('[Nova Extensions] Transforming alert type:', match[1]);

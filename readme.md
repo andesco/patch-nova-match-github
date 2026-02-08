@@ -7,7 +7,8 @@ This patch brings GitHub features to [Markdown previews in Nova][nova-doc] by ad
 - **Syntax Highlighting**
 - **Mermaid Diagrams**
 
-> [!tip] Also use this user stylesheet in Nova to bring the exact style of GitHub to Markdown previews: [`andesco/generate-github-markdown-css`][andesco]
+> [!tip]
+> Also use this user stylesheet in Nova to bring the exact style of GitHub to Markdown previews: [`andesco/generate-github-markdown-css`][andesco]
 
 ## Usage
 
