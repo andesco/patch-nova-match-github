@@ -1,47 +1,96 @@
-# Patch Nova to Match GitHub
 
-Patches Nova.app's Markdown preview to exactly match GitHub's rendering with:
+## Patch Nova: Match GitHub
 
-- **GitHub Markdown Alerts** (`> [!NOTE]`, `> [!TIP]`, etc.)
-- **Syntax Highlighting** (using starry-night - GitHub's Prettylights)
+This patch brings GitHub features to [Markdown previews in Nova][nova-doc] by adding support for:
+
+- **GitHub Markdown Alerts**
+- **Syntax Highlighting**
 - **Mermaid Diagrams**
 
-## Installation
+> [!tip] Also use this user stylesheet in Nova to bring the exact style of GitHub to Markdown previews: [`andesco/generate-github-markdown-css`][andesco]
+
+## Usage
+
+1. Install: `sudo swift patch-nova.swift install`
+
+2. Quit and relaunch Nova.
 
 ```bash
-sudo swift patch-nova.swift install   # Install all extensions
-swift patch-nova.swift status          # Check installation status
-sudo swift patch-nova.swift restore    # Restore from backups
+sudo swift patch-nova.swift install # backup and install
+swift patch-nova.swift status       # get status
+swift patch-nova.swift update       # update
+sudo swift patch-nova.swift restore # restore
+```
+> The included Swift script create a backup and patches the [userscript] used by Nova: `Nova.app/Contents/Resources/ExternalWebRuntime.js`
+
+
+## GitHub Markdown Alerts
+
+[GitHub Markdown Alerts][alerts] are based on the blockquote syntax that emphasize critical information. They are displayed with distinctive colors and icons to indicate the significance of the content.
+
+```markdown
+<!--markdown-->
+[!NOTE]
+> Useful information that users should know, even when skimming content.
 ```
 
-## How It Works
+> [!NOTE]
+> Useful information that users should know, even when skimming content.
 
-1. **Local Bundles** - JS and CSS stored in `lib/` directory
-2. **Auto-Updates** - GitHub Actions rebuilds bundles weekly from upstream
-3. **Embedded** - All assets embedded as base64 into Nova's runtime
-4. **GitHub Exact** - Uses same Prettylights library as GitHub.com
+> [!TIP]
+> Helpful advice for doing things better or more easily.
 
-## Structure
+> [!IMPORTANT]
+> Key information users need to know to achieve their goal.
 
+> [!WARNING]
+> Urgent info that needs immediate user attention to avoid problems.
+
+> [!CAUTION]
+> Advises about risks or negative outcomes of certain actions.
+
+## Syntax Highlighting
+
+Code blocks are automatically highlighted using [`starry-night`](https://github.com/wooorm/starry-night) with syntax-aware coloring that matches GitHub.
+
+
+```markdown
+‌```javascript
+function greet(name) {
+  console.log(`Hello, ${name}.`);
+}
+‌```
 ```
-lib/                           # Compiled bundles (1.3MB total)
-├── starry-night-bundle.js    # Common language grammars
-└── starry-night.css          # GitHub's exact CSS
 
-scripts/                       # Build tools
-├── build-bundle.mjs          # esbuild bundler
-└── package.json              # Dependencies
-
-.github/workflows/             # Auto-update workflow
+```javascript
+function greet(name) {
+  console.log(`Hello, ${name}.`);
+}
 ```
 
-## Features
+## Mermaid Diagrams
 
-✅ Fully local - no CDN dependencies at runtime
-✅ Auto-updates weekly from `@wooorm/starry-night`
-✅ Common grammars only (JS, TS, Python, Go, etc.)
-✅ GitHub exact colors for light/dark modes
+[Mermaid](https://mermaid.js.org/) generates diagrams from text in a similar manner to Markdown.
 
-## License
+```markdown
+‌```mermaid
+graph LR
+  A[Start] --> B{Working?}
+  B --> |Yes| C[Great!]
+  B --> |No| D[Debug]
+  D --> A
+‌```
+```
 
-MIT
+```mermaid
+graph LR
+  A[Start] --> B{Working?}
+  B --> |Yes| C[Great!]
+  B --> |No| D[Debug]
+  D --> A
+```
+
+[andesco]: https://github.com/andesco/generate-github-markdown-css
+[alerts]: https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts
+[nova-doc]: https://help.nova.app/previews/web-server/
+[userscript]: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_cascade/Cascade#user_stylesheets
